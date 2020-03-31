@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>plat_bywire</name>
+  <name>plat_dbw</name>
   <version>0.0.0</version>
-  <description>The plat_bywire package</description>
+  <description>The plat_dbw package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
@@ -19,7 +19,7 @@
   <!-- Url tags are optional, but multiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/plat_bywire</url> -->
+  <!-- <url type="website">http://wiki.ros.org/plat_dbw</url> -->
 
 
   <!-- Author tags are optional, multiple are allowed, one per tag -->
@@ -52,19 +52,16 @@
   <build_depend>gazebo_ros</build_depend>
   <build_depend>geometry_msgs</build_depend>
   <build_depend>nav_msgs</build_depend>
-  <build_depend>rospy</build_depend>
   <build_depend>sensor_msgs</build_depend>
   <build_depend>std_msgs</build_depend>
   <build_export_depend>gazebo_ros</build_export_depend>
   <build_export_depend>geometry_msgs</build_export_depend>
   <build_export_depend>nav_msgs</build_export_depend>
-  <build_export_depend>rospy</build_export_depend>
   <build_export_depend>sensor_msgs</build_export_depend>
   <build_export_depend>std_msgs</build_export_depend>
   <exec_depend>gazebo_ros</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
   <exec_depend>nav_msgs</exec_depend>
-  <exec_depend>rospy</exec_depend>
   <exec_depend>sensor_msgs</exec_depend>
   <exec_depend>std_msgs</exec_depend>
 

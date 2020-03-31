@@ -20,6 +20,6 @@ The following list shows the directories and explains their purpose:
 	- `plat_loc`	-> *Package responsible for each of the vehicles localization*
 	- `plat_nav`	-> *Package responsible for each of the vehicles navigation*
 * **plat_sim**	-> *Directory responsible for handling the simulation environment*
-	- `plat_bywire`	-> *Package responsible for interfacing with the drive commands and sensors feedback for each vehicle*
-	- `plat_gazebo`	-> *Package responsible for interfacing and launching the visualization models*
+	- `plat_dbw`	-> *Package responsible for interfacing with the drive commands and sensors feedback for each vehicle*
+	- `plat_gaz`	-> *Package responsible for interfacing and launching the visualization models*
 	- `plat_map`	-> *Package responsible for configuring the map in the simulation*
