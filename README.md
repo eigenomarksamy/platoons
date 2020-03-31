@@ -2,18 +2,11 @@
 
 ## Resources
 
-### Google Drive for Management and Literature
-
-[G-Drive](https://drive.google.com/drive/folders/1yUdHC7Go0_v80fDRuy0mRORAJV-xAzHh?usp=sharing)
-
-
-### Overleaf Project for Paper Writing
-
-[Overleaf](https://www.overleaf.com/1737169256jszkkfntpjtb)
-
-### Github Repository for Source Code
-
-[Github-repo](https://github.com/eigenomarksamy/platoons.git)
+| **Resource**       | **Description**   |
+|--------------------|:------------------|
+| [G-Drive](https://drive.google.com/drive/folders/1yUdHC7Go0_v80fDRuy0mRORAJV-xAzHh?usp=sharing)	| Google Drive for Management and Literature	|
+| [Overleaf](https://www.overleaf.com/1737169256jszkkfntpjtb)						| Overleaf Project for Paper Writing		|
+| [Github-repo](https://github.com/eigenomarksamy/platoons.git)						| Github Repository for Source Code		|
 
 ## Directory Management
 
