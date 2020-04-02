@@ -1,0 +1,7 @@
+- leadvehicle:
+    x: 42.0
+    y: 160.0
+    z: 0.0
+    yaw: 1.57
+    color: {r: 0.1, g: 0.1, b: 0.8}
+    pub_tf: true

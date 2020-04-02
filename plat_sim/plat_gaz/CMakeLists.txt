@@ -9,6 +9,9 @@ project(plat_gaz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   gazebo_ros
+  dbw_mkz_gazebo
+  dbw_mkz_can
+  dataspeed_dbw_gazebo_demo
 )
 
 ## System dependencies are found with CMake's conventions

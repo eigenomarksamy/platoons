@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<launch>
+    <include file="$(find dbw_mkz_gazebo)/launch/dbw_mkz_gazebo.launch" >
+        <arg name="use_camera_control" value="false" />
+        <arg name="world_name" value="$(find plat_map)/worlds/plat_map_fullcity.world" />
+        <arg name="sim_param_file" value="$(find plat_gaz)/yaml/plat_gaz_leadvehicle.yaml" />
+    </include>
+    <include file="$(find dbw_mkz_can)/launch/dbw.launch" >
+        <arg name="live" value="false" />
+        <arg name="load_urdf" value="false" />
+        <arg name="can_ns" value="leadvehicle" />
+        <arg name="vehicle_ns" value="leadvehicle" />
+        <arg name="ulc" value="false" />
+    </include>
+</launch>
