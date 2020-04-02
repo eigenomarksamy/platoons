@@ -15,7 +15,7 @@ The following list shows the directories and explains their purpose:
 * **plat_app**	-> *Directory responsible for the packages that will be controlled by the user to perform a demonstration*
 	- `plat_cfg`	-> *Package responsible for sending configurations of the demonstration into the ROS Parameter Server*
 * **plat_com**	-> *Directory responsible for handling the communication inside and outside the platoon*
-	- `plat_form`	-> *Package responsible for managing the external vehicles messages and forming the platoon*
+	- `plat_frm`	-> *Package responsible for managing the external vehicles messages and forming the platoon*
 * **plat_sdc**	-> *Directory responsible for the self-driving behavior of each of the vehicles*
 	- `plat_loc`	-> *Package responsible for each of the vehicles localization*
 	- `plat_nav`	-> *Package responsible for each of the vehicles navigation*
