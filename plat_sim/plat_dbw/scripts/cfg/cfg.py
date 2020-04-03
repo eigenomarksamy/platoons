@@ -29,6 +29,9 @@ class VehicleCfg:
     def get_odom_properties(self):
         return self._odom_node_name, self._odom_topic_name, self._gazebo_model_name, self._gazebo_frame_id
 
+    def get_control_properties(self):
+        return self._control_topic_name
+
 class BrakeVehicle:
     def __init__(self):
         self._CMD_NONE          = 0
