@@ -6,18 +6,18 @@ from std_msgs.msg import Header
 from nav_msgs.msg import Odometry
 from gazebo_msgs.srv import GetModelState, GetModelStateRequest
 
-VEHICLES_NS_LIST = ['novehicle', 'vehicle', 'leadvehicle', 'stringvehicle1', 'stringvehicle2', 'mergevehicle']
+VEHICLES_NS_LIST = ['novehicle', 'vehicle', 'leadvehicle', 'stringvehicle1', 'stringvehicle2', 'mergevehicle', 'obsvehicle']
 
 class VehicleCfg:
     def __init__(self, ns):
-        self._ns            = ns
-        self._node_name     = ns + '_odom'
-        self._topic_name    = '/' + ns + '/odom'
-        self._model_name    = ns
-        self._frame_id      = '/' + ns + '/base_link'
+        self._ns                = ns
+        self._odom_node_name    = ns + '_odom'
+        self._odom_topic_name   = '/' + ns + '/odom'
+        self._gazebo_model_name = ns
+        self._gazebo_frame_id   = '/' + ns + '/base_link'
 
     def get_node_properties(self):
-        return self._node_name, self._topic_name, self._model_name, self._frame_id
+        return self._odom_node_name, self._odom_topic_name, self._gazebo_model_name, self._gazebo_frame_id
 
 def parse_args():
     default_ns = 'vehicle'
