@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<launch>
+    <include file="$(find dataspeed_dbw_gazebo_demo)/launch/generic_dbw.launch">
+        <arg name="vehicle_name" value="stringvehicle1"/>
+        <arg name="vehicle_type" value="stringvehicle1"/>
+    </include>
+    <include file="$(find dataspeed_dbw_gazebo_demo)/launch/generic_dbw.launch">
+        <arg name="vehicle_name" value="stringvehicle2"/>
+        <arg name="vehicle_type" value="stringvehicle2"/>
+    </include>
+</launch>
