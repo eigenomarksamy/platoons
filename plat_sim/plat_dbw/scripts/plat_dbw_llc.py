@@ -1,34 +1,37 @@
 #! /usr/bin/env python
 
+import os
 import sys
 import rospy
-from std_msgs.msg       import Float64, Float64MultiArray
-from dbw_mkz_msgs.msg   import ThrottleCmd, SteeringCmd, BrakeCmd, GearCmd, TurnSignalCmd, TwistCmd
+from plat_msg.msg       import PlatMsgVehicleCmd
 
-VEHICLES_NS_LIST = ['novehicle', 'vehicle', 'leadvehicle', 'stringvehicle1', 'stringvehicle2', 'mergevehicle', 'obsvehicle']
+dirpath = os.path.dirname(os.path.abspath(__file__))
+importdir = dirpath + '/cfg'
+sys.path.append(importdir)
 
-class VehicleCfg:
-    def __init__(self, ns):
-        self._ns                    = ns
-        self._llc_node_name         = ns + '_llc'
-        self._brake_topic_name      = '/' + ns + '/brake_cmd'
-        self._throttle_topic_name   = '/' + ns + '/throttle_cmd'
-        self._steering_topic_name   = '/' + ns + '/steering_cmd'
-        self._gear_topic_name       = '/' + ns + '/gear_cmd'
-        self._turnsignal_topic_name = '/' + ns + '/turn_signal_cmd'
-        self._cmdvel_topic_name     = '/' + ns + '/cmd_vel'
+import cfg
+from cfg import VehicleCfg
+from cfg import BrakeVehicle
+from cfg import ThrottleVehicle
+from cfg import SteeringVehicle
+from cfg import GearVehicle
+from cfg import TurnSignalVehicle
 
-    def get_node_properties(self):
-        return self._llc_node_name, self._brake_topic_name, self._throttle_topic_name, self._steering_topic_name
+def main():
+    vehicle_ns = cfg.parse_args()
+    ns_obj = VehicleCfg(vehicle_ns)
+    node_name, brake_topic_name, throttle_topic_name, steering_topic_name, gear_topic_name, turnsignal_topic_name, _ = ns_obj.get_llc_properties()
+    brake_obj = BrakeVehicle()
+    throttle_obj = ThrottleVehicle()
+    steering_obj = SteeringVehicle()
+    gear_obj = GearVehicle()
+    turnsignal_obj = TurnSignalVehicle()
+    rospy.init_node(node_name, anonymous=True)
+    brake_obj.set_pub(topic_name=brake_topic_name)
+    throttle_obj.set_pub(topic_name=throttle_topic_name)
+    steering_obj.set_pub(topic_name=steering_topic_name)
+    gear_obj.set_pub(topic_name=gear_topic_name)
+    turnsignal_obj.set_pub(topic_name=turnsignal_topic_name)
 
-def parse_args():
-    default_ns = 'vehicle'
-    args_list = list(sys.argv)
-    if len(args_list) <= 1:
-        vehicle_ns = default_ns
-    else:
-        args_list.pop(0)
-        vehicle_ns = args_list[0]
-        if vehicle_ns not in VEHICLES_NS_LIST:
-            vehicle_ns = 'novehicle'
-    return vehicle_ns
+if __name__ == '__main__':
+    main()
