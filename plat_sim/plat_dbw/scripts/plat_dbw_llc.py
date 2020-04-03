@@ -27,6 +27,95 @@ def control_callback(control_cmd):
     g_enable_cmd    = control_cmd.enable_cmd
     g_clear_cmd     = control_cmd.clear_cmd
 
+def set_control_cfg(cfg_type_cmd_cur):
+    global g_vel_cmd, g_swa_cmd, g_acc_cmd, g_sar_cmd
+    if cfg_type_cmd_cur == 0:       # CMD_NONE
+        cmd_vel_cur = 0.0
+        cmd_swa_cur = 0.0
+        cmd_acc_cur = 0.0
+        cmd_sar_cur = 0.0
+    elif cfg_type_cmd_cur == 1:     # CMD_VEL
+        cmd_vel_cur = g_vel_cmd
+        cmd_swa_cur = 0.0
+        cmd_acc_cur = 0.0
+        cmd_sar_cur = 0.0
+    elif cfg_type_cmd_cur == 2:     # CMD_SWA
+        cmd_vel_cur = 0.0
+        cmd_swa_cur = g_swa_cmd
+        cmd_acc_cur = 0.0
+        cmd_sar_cur = 0.0
+    elif cfg_type_cmd_cur == 3:     # CMD_VEL_SWA
+        cmd_vel_cur = g_vel_cmd
+        cmd_swa_cur = g_swa_cmd
+        cmd_acc_cur = 0.0
+        cmd_sar_cur = 0.0
+    elif cfg_type_cmd_cur == 4:     # CMD_ACC
+        cmd_vel_cur = 0.0
+        cmd_swa_cur = 0.0
+        cmd_acc_cur = g_acc_cmd
+        cmd_sar_cur = 0.0
+    elif cfg_type_cmd_cur == 5:     # CMD_VEL_ACC
+        cmd_vel_cur = g_vel_cmd
+        cmd_swa_cur = 0.0
+        cmd_acc_cur = g_acc_cmd
+        cmd_sar_cur = 0.0
+    elif cfg_type_cmd_cur == 6:     # CMD_ACC_SWA
+        cmd_vel_cur = 0.0
+        cmd_swa_cur = g_swa_cmd
+        cmd_acc_cur = g_acc_cmd
+        cmd_sar_cur = 0.0
+    elif cfg_type_cmd_cur == 7:     # CMD_VEL_SWA_ACC
+        cmd_vel_cur = g_vel_cmd
+        cmd_swa_cur = g_swa_cmd
+        cmd_acc_cur = g_acc_cmd
+        cmd_sar_cur = 0.0
+    elif cfg_type_cmd_cur == 8:     # CMD_SAR
+        cmd_vel_cur = 0.0
+        cmd_swa_cur = 0.0
+        cmd_acc_cur = 0.0
+        cmd_sar_cur = g_sar_cmd
+    elif cfg_type_cmd_cur == 9:     # CMD_VEL_SAR
+        cmd_vel_cur = g_vel_cmd
+        cmd_swa_cur = 0.0
+        cmd_acc_cur = 0.0
+        cmd_sar_cur = g_sar_cmd
+    elif cfg_type_cmd_cur == 10:    # CMD_SWA_SAR
+        cmd_vel_cur = 0.0
+        cmd_swa_cur = g_swa_cmd
+        cmd_acc_cur = 0.0
+        cmd_sar_cur = g_sar_cmd
+    elif cfg_type_cmd_cur == 11:    # CMD_VEL_SWA_SAR
+        cmd_vel_cur = g_vel_cmd
+        cmd_swa_cur = g_swa_cmd
+        cmd_acc_cur = 0.0
+        cmd_sar_cur = g_sar_cmd
+    elif cfg_type_cmd_cur == 12:    # CMD_ACC_SAR
+        cmd_vel_cur = 0.0
+        cmd_swa_cur = 0.0
+        cmd_acc_cur = g_acc_cmd
+        cmd_sar_cur = g_sar_cmd
+    elif cfg_type_cmd_cur == 13:    # CMD_VEL_ACC_SAR
+        cmd_vel_cur = g_vel_cmd
+        cmd_swa_cur = 0.0
+        cmd_acc_cur = g_acc_cmd
+        cmd_sar_cur = g_sar_cmd
+    elif cfg_type_cmd_cur == 14:    # CMD_SWA_ACC_SAR
+        cmd_vel_cur = 0.0
+        cmd_swa_cur = g_swa_cmd
+        cmd_acc_cur = g_acc_cmd
+        cmd_sar_cur = g_sar_cmd
+    elif cfg_type_cmd_cur == 15:    # CMD_VEL_ACC_SWA_SAR
+        cmd_vel_cur = g_vel_cmd
+        cmd_swa_cur = g_swa_cmd
+        cmd_acc_cur = g_acc_cmd
+        cmd_sar_cur = g_sar_cmd
+    else:                           # CMD_INVALID
+        cmd_vel_cur = 0.0
+        cmd_swa_cur = 0.0
+        cmd_acc_cur = 0.0
+        cmd_sar_cur = 0.0
+    return cmd_vel_cur, cmd_swa_cur, cmd_acc_cur, cmd_sar_cur
+
 def main():
     global g_vel_cmd, g_swa_cmd, g_acc_cmd, g_sar_cmd, g_cfg_type_cmd, g_enable_cmd, g_clear_cmd
     g_vel_cmd       = 0.0
@@ -54,13 +143,10 @@ def main():
     rate = rospy.Rate(10)
     while not rospy.is_shutdown():
         rospy.Subscriber(control_topic_name, PlatMsgVehicleCmd, control_callback)
-        vel_cmd_cur         = g_vel_cmd
-        swa_cmd_cur         = g_swa_cmd
-        acc_cmd_cur         = g_acc_cmd
-        sar_cmd_cur         = g_sar_cmd
         cfg_type_cmd_cur    = g_cfg_type_cmd
         enable_cmd_cur      = g_enable_cmd
         clear_cmd_cur       = g_clear_cmd
+        vel_cmd_cur, swa_cmd_cur, acc_cmd_cur, sar_cmd_cur = set_control_cfg(cfg_type_cmd_cur)
         vel_cmd_pre         = vel_cmd_cur
         swa_cmd_pre         = swa_cmd_cur
         acc_cmd_pre         = acc_cmd_cur
