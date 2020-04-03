@@ -23,3 +23,4 @@ The following list shows the directories and explains their purpose:
 	- `plat_dbw`	-> *Package responsible for interfacing with the drive commands and sensors feedback for each vehicle*
 	- `plat_gaz`	-> *Package responsible for interfacing and launching the visualization models*
 	- `plat_map`	-> *Package responsible for configuring the map in the simulation*
+	- `plat_msg`	-> *Package responsible for custom messages*
