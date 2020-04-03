@@ -13,5 +13,4 @@
         <arg name="vehicle_ns" value="leadvehicle" />
         <arg name="ulc" value="false" />
     </include>
-    <node ns="leadvehicle" pkg="dbw_mkz_twist_controller" type="twist_controller" name="twist_control" />
 </launch>
