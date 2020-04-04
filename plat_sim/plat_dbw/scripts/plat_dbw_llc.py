@@ -24,9 +24,10 @@ g_vel_pre           = 0.0
 g_vel_err_pre_int   = 0.0
 g_vel_err_pre       = 0.0
 g_throttle_pre      = 0.0
+g_published         = False
 
 def control_callback(control_cmd):
-    global g_vel_cmd, g_swa_cmd, g_acc_cmd, g_sar_cmd, g_cfg_type_cmd, g_enable_cmd, g_clear_cmd
+    global g_vel_cmd, g_swa_cmd, g_acc_cmd, g_sar_cmd, g_cfg_type_cmd, g_enable_cmd, g_clear_cmd, g_published
     g_vel_cmd       = control_cmd.vel_cmd
     g_swa_cmd       = control_cmd.swa_cmd
     g_acc_cmd       = control_cmd.acc_cmd
@@ -34,6 +35,7 @@ def control_callback(control_cmd):
     g_cfg_type_cmd  = control_cmd.cfg_type_cmd
     g_enable_cmd    = control_cmd.enable_cmd
     g_clear_cmd     = control_cmd.clear_cmd
+    g_published     = True
 
 def set_control_cfg(cfg_type_cmd_cur):
     global g_vel_cmd, g_swa_cmd, g_acc_cmd, g_sar_cmd
@@ -184,7 +186,7 @@ def fill_pub_msgs(cmd_type, b_obj, t_obj, s_obj, brake, throt, steer):
     s_obj.exec_pub()
 
 def main():
-    global g_vel_cmd, g_swa_cmd, g_acc_cmd, g_sar_cmd, g_cfg_type_cmd, g_enable_cmd, g_clear_cmd, g_vel_pre, g_vel_err_pre_int, g_vel_err_pre, g_throttle_pre
+    global g_vel_cmd, g_swa_cmd, g_acc_cmd, g_sar_cmd, g_cfg_type_cmd, g_enable_cmd, g_clear_cmd, g_vel_pre, g_vel_err_pre_int, g_vel_err_pre, g_throttle_pre, g_published
     g_vel_cmd           = 0.0
     g_swa_cmd           = 0.0
     g_acc_cmd           = 0.0
@@ -196,6 +198,7 @@ def main():
     g_vel_err_pre       = 0.0
     g_vel_err_pre_int   = 0.0
     g_throttle_pre      = 0.0
+    g_published         = False
     vehicle_ns = parse_args()
     ns_obj = VehicleCfg(vehicle_ns)
     node_name, brake_topic_name, throttle_topic_name, steering_topic_name, gear_topic_name, turnsignal_topic_name, _ = ns_obj.get_llc_properties()
@@ -214,10 +217,12 @@ def main():
     rate = rospy.Rate(10)
     while not rospy.is_shutdown():
         rospy.Subscriber(control_topic_name, PlatMsgVehicleCmd, control_callback)
-        cfg_type_cmd_cur    = g_cfg_type_cmd
-        vel_cmd_cur, swa_cmd_cur, acc_cmd_cur, sar_cmd_cur = set_control_cfg(cfg_type_cmd_cur)
-        brake_req_cur, throttle_req_cur, steering_req_cur = exec_low_level_control(cfg_type_cmd_cur, vel_cmd_cur, swa_cmd_cur, acc_cmd_cur, sar_cmd_cur)
-        fill_pub_msgs(cfg_type_cmd_cur, brake_obj, throttle_obj, steering_obj, brake_req_cur, throttle_req_cur, steering_req_cur)
+        if g_published:
+            cfg_type_cmd_cur    = g_cfg_type_cmd
+            vel_cmd_cur, swa_cmd_cur, acc_cmd_cur, sar_cmd_cur = set_control_cfg(cfg_type_cmd_cur)
+            brake_req_cur, throttle_req_cur, steering_req_cur = exec_low_level_control(cfg_type_cmd_cur, vel_cmd_cur, swa_cmd_cur, acc_cmd_cur, sar_cmd_cur)
+            fill_pub_msgs(cfg_type_cmd_cur, brake_obj, throttle_obj, steering_obj, brake_req_cur, throttle_req_cur, steering_req_cur)
+        g_published = False
         rate.sleep()
 
 if __name__ == '__main__':
