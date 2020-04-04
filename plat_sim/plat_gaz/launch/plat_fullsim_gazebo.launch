@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+    <include file="$(find plat_gaz)/launch/plat_gaz_platoon.launch"/>
+    <include file="$(find plat_dbw)/launch/plat_dbw_odom.launch"/>
+    <include file="$(find plat_dbw)/launch/plat_dbw_llc.launch"/>
+    <include file="$(find plat_loc)/launch/compute_distance_ahead.launch"/>
+</launch>
