@@ -1,4 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-   <node pkg="plat_dbw" type="plat_dbw_odom.py" name="plat_dbw_odom" args="leadvehicle" output="screen" cwd="node"/>
+   <node pkg="plat_dbw" type="plat_dbw_odom.py" name="plat_dbw_odom_lead" args="leadvehicle" output="screen" cwd="node"/>
+   <node pkg="plat_dbw" type="plat_dbw_odom.py" name="plat_dbw_odom_vehicle1" args="stringvehicle1" output="screen" cwd="node"/>
+   <node pkg="plat_dbw" type="plat_dbw_odom.py" name="plat_dbw_odom_vehicle2" args="stringvehicle2" output="screen" cwd="node"/>
 </launch>

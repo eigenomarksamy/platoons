@@ -1,0 +1,16 @@
+<launch>
+        <!-- distance from vehicle 1 to lead vehicle -->
+        <node 
+        pkg="plat_loc" 
+        name="compute_distance_ahead_stringvehicle1_to_lead" 
+        type="compute_distance_ahead.py"
+        args="stringvehicle1 leadvehicle" 
+        output="screen"/>
+        <!-- distance from vehicle 2 to vehicle 1 -->
+        <node 
+        pkg="plat_loc" 
+        name="compute_distance_stringvehicle2_to_stringvehicle1" 
+        type="compute_distance_ahead.py"
+        args="stringvehicle2 stringvehicle1" 
+        output="screen"/>
+</launch>
