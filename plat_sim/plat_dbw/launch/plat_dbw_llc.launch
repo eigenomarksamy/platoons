@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+   <node pkg="plat_dbw" type="plat_dbw_llc.py" name="plat_dbw_llc" args="leadvehicle" output="screen" cwd="node"/>
+</launch>
