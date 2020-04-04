@@ -128,10 +128,10 @@ def set_control_cfg(cfg_type_cmd_cur):
 
 def lot_control(vel_req):
     global g_vel_pre, g_vel_err_pre_int, g_vel_err_pre, g_throttle_pre
-    Kp = 10.0
+    Kp = 1.0
     Ki = 0.1
     Kd = 0.01
-    sample_t = 0.02
+    sample_t = 0.1
     if vel_req < 0.0:
         vel_req = 0.0
     vel_des     = vel_req
@@ -139,14 +139,13 @@ def lot_control(vel_req):
     vel_err_int = g_vel_err_pre_int + vel_err_cur * sample_t
     vel_err_dif = (vel_err_cur - g_vel_err_pre) / sample_t
     des_acc     = Kp * (vel_err_cur) + Ki * (vel_err_int) + Kd * (vel_err_dif)
+    throttle = 0.0
+    brake = 0.0
     if des_acc > 0:
         brake = 0.0
         throttle = (np.tanh(des_acc) + 1) / 2
         if (throttle - g_throttle_pre) > 0.1:
             throttle = g_throttle_pre + 0.1
-    else:
-        throttle = 0.0
-        brake = 1.0
     g_vel_pre         = vel_des
     g_vel_err_pre     = vel_err_cur
     g_vel_err_pre_int = vel_err_int

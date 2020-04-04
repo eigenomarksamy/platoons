@@ -32,10 +32,10 @@ class Stanley():
         
     def normalizeAngle(self, angle):
         newAngle = angle
-        while (newAngle <= -180):
-            newAngle += 360
-        while (newAngle > 180):
-            newAngle -= 360
+        while (newAngle <= -np.pi):
+            newAngle += 2 * np.pi
+        while (newAngle > np.pi):
+            newAngle -= 2 * np.pi
         return newAngle 
             
     def controller_update(self):
@@ -71,7 +71,7 @@ class Stanley():
         den = np.sqrt(a**2 + b**2)
         
         # 1. calculate heading error
-        yaw_des = np.arctan((-a)/(b))
+        yaw_des = np.arctan2(current_way_y - current_pos_y, current_way_x - current_pos_x)
         yaw_err = yaw_des - current_yaw
         yaw_err = self.normalizeAngle(yaw_err) 
         
@@ -80,7 +80,7 @@ class Stanley():
        
         # 3. Stanely final Equation
         if(vel > 0.001):
-            yaw_err_crosstrack = np.arctan(self._Ke * crosstrack_err / (self._Kv*vel))
+            yaw_err_crosstrack = np.arctan(self._Ke * crosstrack_err / (self._Kv * vel))
         else:
             yaw_err_crosstrack=0.0
             
@@ -94,7 +94,7 @@ class Stanley():
         
         #save internal data
         self._cte = crosstrack_err
-        self._he  = math.degrees(yaw_err)       
+        self._he  = math.radians(yaw_err)       
     
         return steer_output
 

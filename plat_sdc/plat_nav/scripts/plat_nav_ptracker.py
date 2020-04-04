@@ -25,11 +25,6 @@ from pid            import PID
 
 global g_xxx, g_yyy, g_yaw, g_vel, g_ttt, g_tpr
 
-g_xxx = 0.0
-g_yyy = 0.0
-g_yaw = 0.0
-g_vel = 0.0
-g_ttt = 0.0
 g_tpr = 0.0
 
 def quat_to_euler(qx, qy, qz, qw):
@@ -54,6 +49,9 @@ def odom_callback(odom_data):
     quat_z = odom_data.pose.pose.orientation.z
     quat_w = odom_data.pose.pose.orientation.w
     _, _, g_yaw = quat_to_euler(quat_x, quat_y, quat_z, quat_w)
+    vx = odom_data.twist.twist.linear.x
+    vy = odom_data.twist.twist.linear.y
+    g_vel = ((vx) ** 2 + (vy) ** 2) ** 0.5
 
 def main():
     global g_xxx, g_yyy, g_yaw, g_vel, g_ttt, g_tpr
@@ -73,8 +71,8 @@ def main():
     y_path = list(y_path)
     v_path = list(v_path)
     _ = wp_obj.get_wp_list()
-    pid_controller = PID(Kp=1.0, Ki=1.0, Kd=0.01, windupVal=80)
-    # pid_controller._max_output = 100.0
+    pid_controller = PID(Kp=10.0, Ki=0.1, Kd=0.01, windupVal=80)
+    pid_controller._max_output = 100.0
     stanley_controller = Stanley(0.35, 1.0)
     rospy.init_node(node_name, anonymous=True)
     stanely_ctrl_pub = rospy.Publisher(pub_topic_nam, PlatMsgVehicleCmd, queue_size=100)
@@ -94,7 +92,7 @@ def main():
         stanley_controller.setVehicleData(g_xxx, g_yyy, g_vel, g_yaw)
         stanley_controller.setWayPoints(xf, yf, wx, wy)
         steer_req = stanley_controller.controller_update()
-        control_msg.vel_cmd = vel_req / 100.0
+        control_msg.vel_cmd = vel_req
         control_msg.swa_cmd = steer_req
         control_msg.cfg_type_cmd = 3
         control_msg.enable_cmd = True
