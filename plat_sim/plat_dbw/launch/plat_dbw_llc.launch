@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+   <node pkg="plat_dbw" type="plat_dbw_llc.py" name="plat_dbw_llc" args="leadvehicle" output="screen" cwd="node"/>
+   <node pkg="plat_dbw" type="plat_dbw_llc.py" name="plat_dbw_llc_vehicle1" args="stringvehicle1" output="screen" cwd="node"/>
+   <node pkg="plat_dbw" type="plat_dbw_llc.py" name="plat_dbw_llc_vehicle2" args="stringvehicle2" output="screen" cwd="node"/>
+</launch>
