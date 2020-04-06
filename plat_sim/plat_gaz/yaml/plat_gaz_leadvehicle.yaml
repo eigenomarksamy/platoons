@@ -1,22 +1,22 @@
 - leadvehicle:
-    x: 42.0
-    y: 180.0
+    x: 125.0
+    y: -300.0
     z: 0.0
     yaw: 1.57
     color: {r: 0.1, g: 0.1, b: 0.8}
     pub_tf: true
 
 - stringvehicle1:
-    x: 42.0
-    y: 170.0
+    x: 125.0
+    y: -310.0
     z: 0.0
     yaw: 1.57
     color: {r: 0.1, g: 0.8, b: 0.1}
     pub_tf: true
 
 - stringvehicle2:
-    x: 42.0
-    y: 160.0
+    x: 125.0
+    y: -320.0
     z: 0.0
     yaw: 1.57
     color: {r: 0.1, g: 0.8, b: 0.1}

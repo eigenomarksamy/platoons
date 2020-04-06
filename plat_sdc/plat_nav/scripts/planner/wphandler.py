@@ -9,11 +9,11 @@ class Path:
     def __init__(self, layout='straight_line'):
         self._layout = layout
         if self._layout == 'straight_line':
-            self._x_init    = 42.0
-            self._y_init    = 180.0
+            self._x_init    = 125.0
+            self._y_init    = 20.0
             self._yaw_init  = 1.57
             self._x_goal    = self._x_init
-            self._y_goal    = 260.0
+            self._y_goal    = 500.0
             self._yaw_goal  = self._yaw_init
             self._max_vel   = 10.0
             self._step      = 1.0
