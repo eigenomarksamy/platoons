@@ -20,6 +20,18 @@ class Path:
             self._path_len  = int((self._y_goal - self._y_init) / self._step)
             self._max_acc   = 1.0
             self._idx       = 0
+        elif self._layout == 'merge_point':
+            self._x_init    = 83.0
+            self._y_init    = 214.0
+            self._yaw_init  = 1.9194
+            self._x_goal    = 42.0
+            self._y_goal    = 296.0
+            self._yaw_goal  = 1.57
+            self._max_vel   = 10.0
+            self._step      = 1.0
+            self._path_len  = int((self._y_goal - self._y_init) / self._step)
+            self._max_acc   = 1.0
+            self._idx       = 0
 
     def generate_path(self):
         if self._layout == 'straight_line':
