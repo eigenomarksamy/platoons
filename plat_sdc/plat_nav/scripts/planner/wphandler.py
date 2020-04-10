@@ -9,11 +9,11 @@ class Path:
     def __init__(self, layout='straight_line'):
         self._layout = layout
         if self._layout == 'straight_line':
-            self._x_init    = 42.0
-            self._y_init    = 180.0
+            self._x_init    = 125.0
+            self._y_init    = -299.0
             self._yaw_init  = 1.57
             self._x_goal    = self._x_init
-            self._y_goal    = 260.0
+            self._y_goal    = 500.0
             self._yaw_goal  = self._yaw_init
             self._max_vel   = 10.0
             self._step      = 1.0
@@ -78,17 +78,92 @@ class Path:
             self._wp_d.append(np.sqrt(self._wp_np[i, 0] - self._wp_np[i - 1, 0]) ** 2 + (self._wp_np[i, 1] - self._wp_np[i - 1, 1]))
         self._wp_d.append(0)
         self._wp_len = self._path_len
+        self._wp_interp = []
+        self._wp_interp_hash = []
+        interp_counter = 0
+        for i in range(self._wp_np.shape[0] - 1):
+            self._wp_interp.append(list(self._wp_np[i]))
+            self._wp_interp_hash.append(interp_counter)
+            interp_counter += 1
+            num_pts_to_interp = int(np.floor(self._wp_d[i] / float(0.01)) - 1)
+            wp_vector = self._wp_np[i + 1] - self._wp_np[i]
+            wp_uector = wp_vector / np.linalg.norm(wp_vector)
+            for j in range(num_pts_to_interp):
+                next_wp_vector = 0.01 * float(j + 1) * wp_uector
+                self._wp_interp.append(list(self._wp_np[i] + next_wp_vector))
+                interp_counter += 1
+        self._wp_interp.append(list(self._wp_np[-1]))
+        self._wp_interp_hash.append(interp_counter)
+        interp_counter += 1
         return [self._wp_x, self._wp_y, self._wp_v, self._wp, self._wp_np, self._wp_d]
     
     def get_closest_wp(self, x_cur, y_cur):
-        dx = [x_cur - self._wp_x[itx] for itx in range(self._idx, self._wp_len)]
-        dy = [y_cur - self._wp_y[ity] for ity in range(self._idx, self._wp_len)]
+        dx = [x_cur - itx for itx in self._wp_x]
+        dy = [y_cur - ity for ity in self._wp_y]
         d = [abs(np.sqrt(idx ** 2 + idy ** 2)) for (idx, idy) in zip(dx, dy)]
         tmp_idx = d.index(min(d))
         self._idx += tmp_idx
-        wx = self._wp_x[self._idx]
-        wy = self._wp_y[self._idx]
-        wv = self._wp_v[self._idx]
+        wx = self._wp_x[tmp_idx]
+        wy = self._wp_y[tmp_idx]
+        wv = self._wp_v[tmp_idx]
+        return wx, wy, wv
+
+    def get_closest_wp_adv(self, x_cur, y_cur):
+        # dx = [x_cur - itx for itx in self._wp_x]
+        # dy = [y_cur - ity for ity in self._wp_y]
+        # d = [abs(np.sqrt(idx ** 2 + idy ** 2)) for (idx, idy) in zip(dx, dy)]
+        # tmp_idx = d.index(min(d))
+        # self._idx += tmp_idx
+        # wx = self._wp_x[tmp_idx]
+        # wy = self._wp_y[tmp_idx]
+        # wv = self._wp_v[tmp_idx]
+        close_idx = self._idx
+        close_dist = np.linalg.norm(np.array([self._wp_np[close_idx, 0] - x_cur, self._wp_np[close_idx, 1] - y_cur]))
+        new_dist = close_dist
+        new_idx = close_idx
+        while new_dist <= close_idx:
+            close_dist = new_dist
+            close_idx = new_idx
+            new_idx += 1
+            if new_idx >= self._wp_np.shape[0]:
+                break
+            new_dist = np.linalg.norm(np.array([self._wp_np[new_idx, 0] - x_cur, self._wp_np[new_idx, 1] - 1]))
+        new_dist = close_dist
+        new_idx = close_idx
+        while new_dist <= close_dist:
+            close_dist = new_dist
+            close_idx = new_idx
+            new_idx -= 1
+            if new_idx < 0:
+                break
+            new_dist = np.linalg.norm(np.array([self._wp_np[new_idx, 0] - x_cur, self._wp_np[new_idx, 1] - 1]))
+        wp_subs_first_idx = close_idx - 1
+        if wp_subs_first_idx < 0:
+            wp_subs_first_idx = 0
+        wp_subs_last_idx = close_idx
+        tot_dist_ahead = 0
+        while tot_dist_ahead < 20:
+            tot_dist_ahead += self._wp_d[wp_subs_last_idx]
+            wp_subs_last_idx += 1
+            if wp_subs_last_idx >= self._wp_np.shape[0]:
+                wp_subs_last_idx = self._wp_np.shape[0] - 1
+                break
+        new_wp = self._wp_interp[self._wp_interp_hash[wp_subs_first_idx] : self._wp_interp_hash[wp_subs_last_idx] + 1]
+        wx = new_wp[0][0]
+        wy = new_wp[0][1]
+        min_idx = 0
+        min_dist = float("inf")
+        des_speed = 0
+        for i in range(len(self._wp)):
+            dist = np.linalg.norm(np.array([self._wp[i][0] - x_cur, self._wp[i][1] - y_cur]))
+            if dist < min_dist:
+                min_dist = dist
+                min_idx = i
+        if min_idx < len(self._wp) - 1:
+            des_speed = self._wp[min_idx][2]
+        else:
+            des_speed = self._wp[-1][2]
+        wv = des_speed
         return wx, wy, wv
 
     def get_last_wp(self):
