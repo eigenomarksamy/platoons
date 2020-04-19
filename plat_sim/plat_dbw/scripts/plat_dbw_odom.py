@@ -27,7 +27,7 @@ def main():
     header.frame_id = frame_id
     model = GetModelStateRequest()
     model.model_name = model_name
-    rate = rospy.Rate(100)
+    rate = rospy.Rate(150)
     while not rospy.is_shutdown():
         result              = get_model_srv(model)
         odom.pose.pose      = result.pose

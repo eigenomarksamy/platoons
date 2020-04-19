@@ -63,7 +63,7 @@ def main():
     ns_obj = ptracker_cfg.VehicleCfg(vehicle_ns)
     node_name, pub_topic_nam = ns_obj.get_ptracker_properties()
     _, sub_topic_name, _, _ = ns_obj.get_odom_properties()
-    wp_obj = Path()
+    wp_obj = Path(pose=ns_obj.get_spawn_pose())
     wp_obj.generate_path()
     wp_obj.generate_vp()
     x_path, y_path, v_path = wp_obj.get_current_path()
@@ -76,7 +76,7 @@ def main():
     stanley_controller = Stanley(0.35, 1.0)
     rospy.init_node(node_name, anonymous=True)
     stanely_ctrl_pub = rospy.Publisher(pub_topic_nam, PlatMsgVehicleCmd, queue_size=100)
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(150)
     control_msg = PlatMsgVehicleCmd()
     while not rospy.is_shutdown():
         rospy.Subscriber(sub_topic_name, Odometry, odom_callback)

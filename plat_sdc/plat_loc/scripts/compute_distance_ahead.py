@@ -36,9 +36,9 @@ def main():
     vehicle1_ns, vehicle2_ns, node_name, topic_name = parse_args()
 
     rospy.init_node(node_name, anonymous=True)
-    dist_pub = rospy.Publisher(topic_name, Int64, queue_size=100)
+    dist_pub = rospy.Publisher(topic_name, Int64, queue_size=1)
 
-    rate = rospy.Rate(100)
+    rate = rospy.Rate(150)
     while not rospy.is_shutdown():
         dist_ahead = compute_dist_ahead(vehicle1_ns + '/odom', vehicle2_ns + '/odom')
         dist_pub.publish(dist_ahead)

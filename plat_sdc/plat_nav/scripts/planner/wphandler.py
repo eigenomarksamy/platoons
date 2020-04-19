@@ -6,11 +6,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class Path:
-    def __init__(self, layout='straight_line'):
+    def __init__(self, layout='straight_line', pose=(0,0)):
         self._layout = layout
         if self._layout == 'straight_line':
-            self._x_init    = 125.0
-            self._y_init    = -299.0
+            self._x_init    = pose[0]
+            self._y_init    = pose[1]
             self._yaw_init  = 1.57
             self._x_goal    = self._x_init
             self._y_goal    = 500.0

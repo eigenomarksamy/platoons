@@ -1,6 +1,8 @@
 #! /usr/bin/python
 
 import sys
+import rospy
+from nav_msgs.msg import Odometry
 
 VEHICLES_NS_LIST = ['novehicle', 'vehicle', 'leadvehicle', 'stringvehicle1', 'stringvehicle2', 'mergevehicle', 'obsvehicle']
 
@@ -32,6 +34,10 @@ class VehicleCfg:
 
     def get_control_properties(self):
         return self._control_topic_name
+
+    def get_spawn_pose(self):
+        odom = rospy.wait_for_message(self._odom_topic_name, Odometry)
+        return (odom.pose.pose.position.x, odom.pose.pose.position.y)
 
 def parse_args():
     default_ns = 'vehicle'

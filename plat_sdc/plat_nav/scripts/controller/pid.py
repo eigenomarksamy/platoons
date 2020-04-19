@@ -12,8 +12,8 @@ class PID():
         self._Ki = Ki
         self._Kd = Kd
         
-        self._max_output = 10.0
-        self._min_output = 0.0
+        self._max_output = 30.0
+        self._min_output = 10.0
         self._cyclic_time = 0.0
         self._windupVal = windupVal
         

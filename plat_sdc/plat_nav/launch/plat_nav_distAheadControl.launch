@@ -1,16 +1,23 @@
 <launch>
-        <!-- vehicle 1 to lead vehicle -->
+        <!-- lead vehicle -->
         <node 
         pkg="plat_nav" 
-        name="control_veh1" 
+        name="control_veh_lead" 
         type="plat_nav_dAheadController.py"
-        args="leadvehicle stringvehicle1" 
+        args="leadvehicle" 
         output="screen"/>
-        <!-- vehicle 2 to vehicle 1 -->
+        <!-- vehicle 1 -->
         <node 
         pkg="plat_nav" 
-        name="control_veh2" 
+        name="control_veh_1" 
         type="plat_nav_dAheadController.py"
-        args="stringvehicle1 stringvehicle2" 
+        args="stringvehicle1" 
+        output="screen"/>
+        <!-- vehicle 2 -->
+        <node 
+        pkg="plat_nav" 
+        name="control_veh_2" 
+        type="plat_nav_dAheadController.py"
+        args="stringvehicle2" 
         output="screen"/>
 </launch>
