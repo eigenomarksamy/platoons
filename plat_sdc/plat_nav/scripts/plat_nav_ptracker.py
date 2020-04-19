@@ -64,7 +64,7 @@ def main():
     node_name, pub_topic_nam = ns_obj.get_ptracker_properties()
     _, sub_topic_name, _, _ = ns_obj.get_odom_properties()
     if vehicle_ns == 'mergevehicle':
-        wp_obj = Path('merge_point')
+        wp_obj = Path('merge_path')
     else:
         wp_obj = Path()
     wp_obj.generate_path()
@@ -88,7 +88,7 @@ def main():
         g_ttt = rospy.get_time()
         ts = float(g_ttt - g_tpr)
         if ts == 0.0:
-            ts = 0.1
+            ts = 0.01
         xf, yf, _ = wp_obj.get_last_wp()
         wx, wy, wv = wp_obj.get_closest_wp(g_xxx, g_yyy)
         vel_req = pid_controller.update(wv, g_vel, ts)
