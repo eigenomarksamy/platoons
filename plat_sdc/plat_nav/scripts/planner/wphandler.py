@@ -4,7 +4,6 @@ import os
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
-import cubic_spline_planner as csp
 
 class Path:
     def __init__(self, layout='straight_line'):
