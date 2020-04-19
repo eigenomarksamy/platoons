@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<launch>
+    <include file="$(find dataspeed_dbw_gazebo_demo)/launch/generic_dbw.launch">
+        <arg name="vehicle_name" value="mergevehicle"/>
+        <arg name="vehicle_type" value="mergevehicle"/>
+    </include>
+</launch>

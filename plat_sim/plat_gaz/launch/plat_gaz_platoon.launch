@@ -3,4 +3,5 @@
 <launch>
     <include file="$(find plat_gaz)/launch/plat_gaz_leadvehicle.launch"/>
     <include file="$(find plat_gaz)/launch/plat_gaz_stringvehicles.launch"/>
+    <include file="$(find plat_gaz)/launch/plat_gaz_mergevehicle.launch"/>
 </launch>

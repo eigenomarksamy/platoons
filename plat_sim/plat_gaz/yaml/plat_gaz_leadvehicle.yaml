@@ -21,3 +21,11 @@
     yaw: 1.57
     color: {r: 0.1, g: 0.8, b: 0.1}
     pub_tf: true
+
+- mergevehicle:
+    x: 147.0
+    y: -274.0
+    z: 0.0
+    yaw: 1.66
+    color: {r: 0.8, g: 0.1, b: 0.1}
+    pub_tf: true
