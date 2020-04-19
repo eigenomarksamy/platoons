@@ -21,7 +21,7 @@ sys.path.append(dir_conf)
 import ptracker_cfg
 from wphandler      import Path
 from stanley        import Stanley
-from pid            import PID
+# from pid            import PID
 
 global g_xxx, g_yyy, g_yaw, g_vel, g_ttt, g_tpr
 
@@ -71,8 +71,8 @@ def main():
     y_path = list(y_path)
     v_path = list(v_path)
     _ = wp_obj.get_wp_list()
-    pid_controller = PID(Kp=10.0, Ki=0.1, Kd=0.01, windupVal=80)
-    pid_controller._max_output = 100.0
+    # pid_controller = PID(Kp=10.0, Ki=0.1, Kd=0.01, windupVal=80)
+    # pid_controller._max_output = 100.0
     stanley_controller = Stanley(0.35, 1.0)
     rospy.init_node(node_name, anonymous=True)
     stanely_ctrl_pub = rospy.Publisher(pub_topic_nam, PlatMsgVehicleCmd, queue_size=100)
@@ -88,13 +88,13 @@ def main():
             ts = 0.1
         xf, yf, _ = wp_obj.get_last_wp()
         wx, wy, wv = wp_obj.get_closest_wp(g_xxx, g_yyy)
-        vel_req = pid_controller.update(wv, g_vel, ts)
+        # vel_req = pid_controller.update(wv - g_vel, ts)
         stanley_controller.setVehicleData(g_xxx, g_yyy, g_vel, g_yaw)
         stanley_controller.setWayPoints(xf, yf, wx, wy)
         steer_req = stanley_controller.controller_update()
-        control_msg.vel_cmd = vel_req
+        # control_msg.vel_cmd = vel_req
         control_msg.swa_cmd = steer_req
-        control_msg.cfg_type_cmd = 3
+        control_msg.cfg_type_cmd = 2
         control_msg.enable_cmd = True
         stanely_ctrl_pub.publish(control_msg)
         g_tpr = g_ttt

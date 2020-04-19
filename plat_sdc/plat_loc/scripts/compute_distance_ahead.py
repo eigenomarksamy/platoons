@@ -18,12 +18,20 @@ def parse_args():
 def calc_euclidean_distance(point1, point2):
     return math.sqrt((point1.x - point2.x)**2 + (point1.y - point2.y)**2)
 
+def calc_y_distance(y1, y2):
+    diff = y1-y2
+    if diff<0:
+        return diff*-1
+    else:
+        return diff
+
 def compute_dist_ahead(vehicle1_topic, vehicle2_topic):
     odom_1 = rospy.wait_for_message(vehicle1_topic, Odometry)
     odom_2 = rospy.wait_for_message(vehicle2_topic, Odometry)
-    distance = calc_euclidean_distance(odom_1.pose.pose.position, odom_2.pose.pose.position)
+    # distance = calc_euclidean_distance(odom_1.pose.pose.position, odom_2.pose.pose.position)
+    distance = calc_y_distance(odom_1.pose.pose.position.y, odom_2.pose.pose.position.y)
     return distance
-
+    
 def main():
     vehicle1_ns, vehicle2_ns, node_name, topic_name = parse_args()
 

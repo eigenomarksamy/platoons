@@ -1,4 +1,6 @@
 <?xml version="1.0"?>
 <launch>
    <node pkg="plat_nav" type="plat_nav_ptracker.py" name="plat_nav_ptracker" args="leadvehicle" output="screen" cwd="node"/>
+   <node pkg="plat_nav" type="plat_nav_ptracker.py" name="plat_nav_ptracker_1" args="stringvehicle1" output="screen" cwd="node"/>
+   <node pkg="plat_nav" type="plat_nav_ptracker.py" name="plat_nav_ptracker_2" args="stringvehicle2" output="screen" cwd="node"/>
 </launch>

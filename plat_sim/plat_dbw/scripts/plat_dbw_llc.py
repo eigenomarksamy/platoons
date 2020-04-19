@@ -166,13 +166,25 @@ def exec_low_level_control(cfg_type_cmd, vel_cmd, swa_cmd, acc_cmd, sar_cmd):
     brake_req       = 0.0
     throttle_req    = 0.0
     steering_req    = 0.0
-    if cfg_type_cmd == 3:
+    if cfg_type_cmd == 1:
+        throttle_req, brake_req = lot_control(vel_cmd)
+    elif cfg_type_cmd == 2:
+        steering_req = lat_control(swa_cmd)
+    elif cfg_type_cmd == 3:
         throttle_req, brake_req = lot_control(vel_cmd)
         steering_req = lat_control(swa_cmd)
     return brake_req, throttle_req, steering_req
 
 def fill_pub_msgs(cmd_type, b_obj, t_obj, s_obj, brake, throt, steer):
-    if cmd_type == 3:
+    if cmd_type == 1:
+        b_obj.set_msg(brake, b_obj._CMD_PERCENT, True)
+        t_obj.set_msg(throt, t_obj._CMD_PERCENT, True)
+        s_obj.set_msg(0.0, 0.0, 0.0, s_obj._CMD_ANGLE, True)
+    elif cmd_type == 2:
+        b_obj.set_msg(0.0, b_obj._CMD_PERCENT, True)
+        t_obj.set_msg(0.0, t_obj._CMD_PERCENT, True)
+        s_obj.set_msg(steer, 0.0, 0.0, s_obj._CMD_ANGLE, True)
+    elif cmd_type == 3:
         b_obj.set_msg(brake, b_obj._CMD_PERCENT, True)
         t_obj.set_msg(throt, t_obj._CMD_PERCENT, True)
         s_obj.set_msg(steer, 0.0, 0.0, s_obj._CMD_ANGLE, True)

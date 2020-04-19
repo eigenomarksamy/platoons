@@ -4,4 +4,5 @@
     <include file="$(find plat_dbw)/launch/plat_dbw_odom.launch"/>
     <include file="$(find plat_dbw)/launch/plat_dbw_llc.launch"/>
     <include file="$(find plat_loc)/launch/plat_compute_distance_ahead.launch"/>
+    <include file="$(find plat_nav)/launch/plat_nav_pathexec.launch"/>
 </launch>
