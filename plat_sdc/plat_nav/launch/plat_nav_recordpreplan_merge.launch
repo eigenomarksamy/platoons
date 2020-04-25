@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+   <node pkg="plat_nav" type="preplan_recorder.py" name="plat_nav_pre_plan_record_merge" args="mergevehicle" output="screen" cwd="node"/>
+</launch>

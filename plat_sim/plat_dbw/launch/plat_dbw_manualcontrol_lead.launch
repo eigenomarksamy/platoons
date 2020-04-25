@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+    <node ns="leadvehicle" pkg="dbw_mkz_twist_controller" type="twist_controller" name="twist_control" />
+    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" args="/cmd_vel:=/leadvehicle/cmd_vel" output="screen"/>
+</launch>

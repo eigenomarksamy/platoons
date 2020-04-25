@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+   <node pkg="plat_dbw" type="plat_dbw_odom.py" name="plat_dbw_odom_merge" args="mergevehicle" output="screen" cwd="node"/>
+</launch>
