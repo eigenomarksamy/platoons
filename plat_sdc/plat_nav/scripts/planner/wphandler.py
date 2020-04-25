@@ -5,8 +5,14 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
+dir_path = os.path.dirname(os.path.abspath(__file__))
+dir_dcsp = dir_path + '/csp'
+
+sys.path.append(dir_dcsp)
+import csp_driver
+
 class Path:
-    def __init__(self, layout='straight_line'):
+    def __init__(self, layout='straight_line', ns=[]):
         self._layout = layout
         if self._layout == 'straight_line':
             self._x_init    = 125.0
@@ -32,6 +38,12 @@ class Path:
             self._path_len  = abs(int((abs(self._y_goal) - abs(self._y_init)) / self._step))
             self._max_acc   = 1.0
             self._idx       = 0
+        elif self._layout == 'csp':
+            self._csp_flag = True
+            self._max_vel   = 10.0
+            self._max_acc   = 1.0
+            self._idx       = 0
+            self._ns        = ns
 
     def generate_path(self):
         if self._layout == 'straight_line':
@@ -62,19 +74,27 @@ class Path:
                 x_path[i] = (y_tmp - c) / m
             self._x_path_arr = np.array(x_path)
             self._yaw_path_arr = np.array(yaw_path)
+        elif self._layout == 'csp':
+            waypoints_x, waypoints_y, course_x, course_y, course_yaw, course_k, course_s, final_goal, speed_profile = csp_driver.get_path(self._ns, True)
+            self._x_path_arr = np.array(course_x)
+            self._y_path_arr = np.array(course_y)
+            self._yaw_path_arr = np.array(course_yaw)
+            self._path_len = len(self._x_path_arr)
 
     def generate_vp(self):
         self._spd_prof = []
         self._euc_dist = []
-        for i in range(self._path_len + 1):
-            self._euc_dist.append(((self._x_init - self._x_path_arr[i]) ** 2 + (self._y_init - self._y_path_arr[i]) ** 2) ** 0.5)
+        x_init = self._x_path_arr[0]
+        y_init = self._y_path_arr[0]
+        for i in range(len(self._x_path_arr)):
+            self._euc_dist.append(((x_init - self._x_path_arr[i]) ** 2 + (y_init - self._y_path_arr[i]) ** 2) ** 0.5)
         v_sat       = self._max_vel
         v_i = v_f   = 0.0
         a_0         = self._max_acc
         s_a         = (v_sat ** 2 - v_i ** 2) / (2 * a_0)
         s_f         = self._euc_dist[-1]
         s_b         = s_f - ((v_f - v_sat ** 2)) / (2 * -a_0)
-        for i in range(self._path_len + 1):
+        for i in range(len(self._x_path_arr)):
             if self._euc_dist[i] <= s_a:
                 self._spd_prof.append(((2 * a_0 * self._euc_dist[i]) + (v_i ** 2)) ** 0.5)
             elif self._euc_dist[i] > s_a and self._euc_dist[i] < s_b:
@@ -124,7 +144,7 @@ class Path:
         dy = [y_cur - ity for ity in self._wp_y]
         d = [abs(np.sqrt(idx ** 2 + idy ** 2)) for (idx, idy) in zip(dx, dy)]
         tmp_idx = d.index(min(d))
-        self._idx += tmp_idx
+        # self._idx += tmp_idx
         wx = self._wp_x[tmp_idx]
         wy = self._wp_y[tmp_idx]
         wv = self._wp_v[tmp_idx]
@@ -219,7 +239,7 @@ def plot(x, y, v):
     plt.show()
 
 def main():
-    path_obj = Path('merge_path')
+    path_obj = Path('csp', 'mergevehicle')
     path_obj.generate_path()
     path_obj.generate_vp()
     x_path, y_path, v_path = path_obj.get_current_path()

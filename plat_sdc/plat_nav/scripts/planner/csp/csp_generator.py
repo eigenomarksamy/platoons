@@ -14,18 +14,25 @@ import cubic_spline_planner as csp
 
 class Path:
 
-    def __init__(self, x_path = [], y_path = []):
+    def __init__(self, outer = False, x_path = [], y_path = []):
         self.x_path = x_path
         self.y_path = y_path
+        self._outer = outer
 
     def default_raw_path(self):
-        file_path = '../genPathData/' + self._ns + '_parse_x_points.txt'
+        if self._outer:
+            file_path = 'genPathData/' + self._ns + '_parse_x_points.txt'
+        else:
+            file_path = '../genPathData/' + self._ns + '_parse_x_points.txt'
         self._x_path_file = open(file_path, "r")
         self._xpath_raw = []
         for self._val in self._x_path_file.read().split():
             self._xpath_raw.append(float(self._val))
         self._x_path_file.close()
-        file_path = '../genPathData/' + self._ns + '_parse_y_points.txt'
+        if self._outer:
+            file_path = 'genPathData/' + self._ns + '_parse_y_points.txt'
+        else:
+            file_path = '../genPathData/' + self._ns + '_parse_y_points.txt'
         self._y_path_file = open(file_path, "r")
         self._ypath_raw = []
         for self._val in self._y_path_file.read().split():
@@ -116,11 +123,11 @@ class Path:
         self._ns = ns
 
 
-def generate_path(ns, is_default = True):
+def generate_path(ns, outer = False, is_default = True):
     x_path = []
     y_path = []
     if is_default == True:
-        path_obj = Path()
+        path_obj = Path(outer)
         path_obj.set_ns(ns)
         x_raw, y_raw = path_obj.default_raw_path()
         path_properties = path_obj.path_props(x_raw, y_raw)

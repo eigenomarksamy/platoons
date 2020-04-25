@@ -63,10 +63,11 @@ def main():
     ns_obj = ptracker_cfg.VehicleCfg(vehicle_ns)
     node_name, pub_topic_nam = ns_obj.get_ptracker_properties()
     _, sub_topic_name, _, _ = ns_obj.get_odom_properties()
-    if vehicle_ns == 'mergevehicle':
-        wp_obj = Path('merge_path')
-    else:
-        wp_obj = Path()
+    # if vehicle_ns == 'mergevehicle':
+    #     wp_obj = Path('merge_path')
+    # else:
+    #     wp_obj = Path()
+    wp_obj = Path('csp', vehicle_ns)
     wp_obj.generate_path()
     wp_obj.generate_vp()
     x_path, y_path, v_path = wp_obj.get_current_path()
