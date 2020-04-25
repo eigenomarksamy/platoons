@@ -13,11 +13,11 @@ import csp_generator
 sys.path.append(dir_conf)
 import ptracker_cfg
 
-def get_path(vehicle_ns, outer=False):
+def get_path(vehicle_ns, dir='csp'):
     waypoints_x = []
     waypoints_y = []
     target_velocity = 10.0 / 3.6
-    waypoints_x, waypoints_y, course_x, course_y, course_yaw, course_k, course_s, final_goal, speed_profile = csp_generator.generate_path(vehicle_ns, outer, is_default = True)
+    waypoints_x, waypoints_y, course_x, course_y, course_yaw, course_k, course_s, final_goal, speed_profile = csp_generator.generate_path(vehicle_ns, dir, is_default = True)
     plan = [waypoints_x, waypoints_y, final_goal, course_x, course_y, course_yaw, course_k, course_s, target_velocity, speed_profile]
     # csp_generator.generate_txt_course(plan)
     return waypoints_x, waypoints_y, course_x, course_y, course_yaw, course_k, course_s, final_goal, speed_profile

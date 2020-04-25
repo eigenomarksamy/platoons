@@ -67,7 +67,7 @@ def main():
     #     wp_obj = Path('merge_path')
     # else:
     #     wp_obj = Path()
-    wp_obj = Path('csp', vehicle_ns)
+    wp_obj = Path('csp', vehicle_ns, 'ros')
     wp_obj.generate_path()
     wp_obj.generate_vp()
     x_path, y_path, v_path = wp_obj.get_current_path()

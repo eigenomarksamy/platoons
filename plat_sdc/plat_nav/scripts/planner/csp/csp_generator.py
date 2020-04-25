@@ -14,25 +14,32 @@ import cubic_spline_planner as csp
 
 class Path:
 
-    def __init__(self, outer = False, x_path = [], y_path = []):
+    def __init__(self, dir='csp', x_path = [], y_path = []):
         self.x_path = x_path
         self.y_path = y_path
-        self._outer = outer
+        self._dir = dir
 
     def default_raw_path(self):
-        if self._outer:
-            file_path = 'genPathData/' + self._ns + '_parse_x_points.txt'
-        else:
+        file_path = ''
+        if self._dir == 'csp':
             file_path = '../genPathData/' + self._ns + '_parse_x_points.txt'
+        elif self._dir == 'ros':
+            abs_path = os.getcwd()
+            file_path = abs_path + '/planner/genPathData/' + self._ns + '_parse_x_points.txt'
+        elif self._dir == 'wphandler':
+            file_path = 'genPathData/' + self._ns + '_parse_x_points.txt'
         self._x_path_file = open(file_path, "r")
         self._xpath_raw = []
         for self._val in self._x_path_file.read().split():
             self._xpath_raw.append(float(self._val))
         self._x_path_file.close()
-        if self._outer:
-            file_path = 'genPathData/' + self._ns + '_parse_y_points.txt'
-        else:
+        if self._dir == 'csp':
             file_path = '../genPathData/' + self._ns + '_parse_y_points.txt'
+        elif self._dir == 'ros':
+            abs_path = os.getcwd()
+            file_path = abs_path + '/planner/genPathData/' + self._ns + '_parse_y_points.txt'
+        elif self._dir == 'wphandler':
+            file_path = 'genPathData/' + self._ns + '_parse_y_points.txt'
         self._y_path_file = open(file_path, "r")
         self._ypath_raw = []
         for self._val in self._y_path_file.read().split():

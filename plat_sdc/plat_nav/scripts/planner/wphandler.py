@@ -12,7 +12,7 @@ sys.path.append(dir_dcsp)
 import csp_driver
 
 class Path:
-    def __init__(self, layout='straight_line', ns=[]):
+    def __init__(self, layout='straight_line', ns=[], dir='wphandler'):
         self._layout = layout
         if self._layout == 'straight_line':
             self._x_init    = 125.0
@@ -44,6 +44,7 @@ class Path:
             self._max_acc   = 1.0
             self._idx       = 0
             self._ns        = ns
+            self._dir       = dir
 
     def generate_path(self):
         if self._layout == 'straight_line':
@@ -75,7 +76,8 @@ class Path:
             self._x_path_arr = np.array(x_path)
             self._yaw_path_arr = np.array(yaw_path)
         elif self._layout == 'csp':
-            waypoints_x, waypoints_y, course_x, course_y, course_yaw, course_k, course_s, final_goal, speed_profile = csp_driver.get_path(self._ns, True)
+            waypoints_x, waypoints_y, course_x, course_y, course_yaw, course_k, course_s, final_goal, speed_profile = csp_driver.get_path(self._ns, self._dir)
+            print("Generation: Done!")
             self._x_path_arr = np.array(course_x)
             self._y_path_arr = np.array(course_y)
             self._yaw_path_arr = np.array(course_yaw)
@@ -239,7 +241,7 @@ def plot(x, y, v):
     plt.show()
 
 def main():
-    path_obj = Path('csp', 'mergevehicle')
+    path_obj = Path('csp', 'leadvehicle')
     path_obj.generate_path()
     path_obj.generate_vp()
     x_path, y_path, v_path = path_obj.get_current_path()
