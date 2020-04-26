@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+   <node pkg="plat_nav" type="plat_nav_ptracker.py" name="plat_nav_ptracker_lead" args="leadvehicle" output="screen" cwd="node"/>
+</launch>

@@ -80,7 +80,7 @@ def main():
     stanley_controller = Stanley(0.35, 1.0)
     rospy.init_node(node_name, anonymous=True)
     stanely_ctrl_pub = rospy.Publisher(pub_topic_nam, PlatMsgVehicleCmd, queue_size=100)
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(50)
     control_msg = PlatMsgVehicleCmd()
     while not rospy.is_shutdown():
         rospy.Subscriber(sub_topic_name, Odometry, odom_callback)
@@ -101,6 +101,10 @@ def main():
         control_msg.cfg_type_cmd = 3
         control_msg.enable_cmd = True
         stanely_ctrl_pub.publish(control_msg)
+        # if vehicle_ns == 'mergevehicle':
+        #     print("Gx: " + str(g_xxx) + " vs. Wx: " + str(wx))
+        #     print("Gy: " + str(g_yyy) + " vs. Wy: " + str(wy))
+        #     print("-------------------------------------------------------")
         g_tpr = g_ttt
         rate.sleep()
 

@@ -159,6 +159,7 @@ def lat_control(swa_req):
     elif swa_req < -1.0:
         swa_req = -1.0
     swa_req *= 9.6
+    # swa_req *= 14.3
     steering = swa_req
     return steering
 
@@ -213,7 +214,7 @@ def main():
     steering_obj.set_pub(topic_name=steering_topic_name)
     gear_obj.set_pub(topic_name=gear_topic_name)
     turnsignal_obj.set_pub(topic_name=turnsignal_topic_name)
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(20)
     while not rospy.is_shutdown():
         rospy.Subscriber(control_topic_name, PlatMsgVehicleCmd, control_callback)
         if g_published:

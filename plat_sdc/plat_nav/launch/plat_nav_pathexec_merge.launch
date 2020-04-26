@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+   <node pkg="plat_nav" type="plat_nav_ptracker.py" name="plat_nav_ptracker_merge" args="mergevehicle" output="screen" cwd="node"/>
+</launch>
