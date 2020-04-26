@@ -77,7 +77,7 @@ class Path:
             self._yaw_path_arr = np.array(yaw_path)
         elif self._layout == 'csp':
             waypoints_x, waypoints_y, course_x, course_y, course_yaw, course_k, course_s, final_goal, speed_profile = csp_driver.get_path(self._ns, self._dir)
-            print("Generation: Done!")
+            print("Generation Done for " + self._ns)
             self._x_path_arr = np.array(course_x)
             self._y_path_arr = np.array(course_y)
             self._yaw_path_arr = np.array(course_yaw)
@@ -240,6 +240,15 @@ def plot(x, y, v):
     plot_vp(v)
     plt.show()
 
+def plot_2paths(path_obj1, path_obj2, label1, label2):
+    plt.plot(path_obj1._wp_x, path_obj1._wp_y, '-b', label=label1)
+    plt.plot(path_obj2._wp_x, path_obj2._wp_y, '-r', label=label2)
+    plt.xlabel('X Global [m]')
+    plt.ylabel('Y Global [m]')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
 def main():
     path_obj = Path('csp', 'leadvehicle')
     path_obj.generate_path()
@@ -249,7 +258,15 @@ def main():
     y_path = list(y_path)
     v_path = list(v_path)
     path_props = path_obj.get_wp_list()
-    plot(path_obj._wp_x, path_obj._wp_y, path_obj._wp_v)
+    path_obj1 = Path('csp', 'mergevehicle')
+    path_obj1.generate_path()
+    path_obj1.generate_vp()
+    x_path1, y_path1, v_path1 = path_obj1.get_current_path()
+    x_path1 = list(x_path1)
+    y_path1 = list(y_path1)
+    v_path1 = list(v_path1)
+    path_props1 = path_obj1.get_wp_list()
+    plot_2paths(path_obj, path_obj1, 'lead', 'merge')
 
 if __name__ == '__main__':
     main()
